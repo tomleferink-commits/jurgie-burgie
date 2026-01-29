@@ -50,6 +50,54 @@
     h2 {
       color: #22c55e;
     }
+    .story-img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      margin: 1rem 0;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+    }
+    .full {
+      display: none;
+      background: #071033;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+    .teaser {
+      line-height: 1.5;
+    }
+    .lees-knop {
+      display: inline-block;
+      margin-top: 0.75rem;
+      color: #93c5fd;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .game-container {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .game-iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 0.75rem;
+      box-shadow: 0 8px 24px rgba(2,6,23,0.6);
+    }
+    .game-link {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: bold;
+    }
     input {
       width: 100%;
       padding: 0.75rem;
@@ -78,6 +126,7 @@
   <a href="#beugel">Beugel</a>
   <a href="#windje">Het Windje</a>
   <a href="#min-aura">Min Aura</a>
+  <a href="#spel">Speel</a>
 </nav>
 
 <main>
@@ -95,40 +144,119 @@
 
   <section id="bek-open" class="verhaal">
     <h2>😮 Bek Open – De Tandarts</h2>
-    <p>
+    <img class="story-img" src="https://images.unsplash.com/photo-1588774069154-9a4b9c14d3cf?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3c3f6f8f4d3c0b8a2f9b4a5c5a1b2c3d" alt="Tandarts" onclick="toggleVerhaal('bek-open-full')" />
+    <p class="teaser">
       Jurgen zit bij de tandarts met zijn bek zo ver open dat het lijkt alsof
-      hij een wereldrecord probeert te breken. Hij speelt alsof hij nergens
-      bang voor is, maar zijn ogen verraden alles. De tandarts vraagt of hij
-      even kan sluiten. Dat lukt niet.
+      hij een wereldrecord probeert te breken. Een korte scène vol kleine
+      paniek en een verbazingwekkende hoeveelheid zoutoplossing.
     </p>
+    <div id="bek-open-full" class="full">
+      <p>
+        De assistent telde zachtjes voor terwijl de tandarts zijn gereedschap
+        door de kamer liet klingelen. Jurgen probeerde te lachen maar het
+        voelde alsof zijn gezicht verstijfd was. In gedachten bedacht hij
+        de meest absurde ontsnappingsplannen: een parachutesprong uit de
+        behandelstoel, of een onderhandse ruil met iemand die altijd op tijd
+        kwam. Toen de verdoving begon te werken, merkte hij dat hij de rest
+        van de dag met één oog open zou blijven kijken.
+      </p>
+      <p>
+        Toen hij thuis kwam, vertelde hij het verhaal duizend keer anders.
+        Elke versie had meer drama en minder realiteit; precies zoals goede
+        verhalen werken. Zijn moeder rolde met haar ogen, maar kreeg ook een
+        kleine glimlach op haar gezicht.
+      </p>
+      <span class="lees-knop" onclick="toggleVerhaal('bek-open-full')">Lees minder</span>
+    </div>
   </section>
 
   <section id="beugel" class="verhaal">
     <h2>😁 Beugel Permanent</h2>
-    <p>
-      De beugel van Jurgen zit zo vast dat mensen denken dat hij ermee geboren is.
-      Zijn tandjes doen pijn en zijn vrienden maken grapjes. Zelfs in Westenvoort
-      weet iedereen ervan. Thuis zegt moeder Coranne dat het wel goedkomt.
-      Jurgen gelooft haar half.
+    <img class="story-img" src="https://images.unsplash.com/photo-1588774069154-9a4b9c14d3cf?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3c3f6f8f4d3c0b8a2f9b4a5c5a1b2c3d" alt="Beugel" onclick="toggleVerhaal('beugel-full')" />
+    <p class="teaser">
+      De beugel van Jurgen voelt als een permanent accessoire geworden. Een
+      mix van pijn, trots en een beetje schaamte — precies genoeg voor een
+      goed verhaal bij het kampvuur.
     </p>
+    <div id="beugel-full" class="full">
+      <p>
+        Op school werd hij de bijnaam 'Metaalmond' gegeven, maar hij droeg het
+        met een vreemde trots. Elke avond poetste hij zijn tanden twee keer zo
+        lang als iedereen anders en oefende hij glimlachen in de spiegel.
+        Soms deed het pijn, soms was het hilarisch, en altijd was het een
+        onderdeel van wie hij was.
+      </p>
+      <p>
+        Vrienden maakten grappen die alleen zij echt goed begrepen; het was
+        hun manier om te zeggen dat ze om hem gaven. En ergens, tussen de
+        pijn en de plagerijen, groeide Jurgen in het idee dat sommige dingen
+        tijd nodig hebben om goed te worden.
+      </p>
+      <span class="lees-knop" onclick="toggleVerhaal('beugel-full')">Lees minder</span>
+    </div>
   </section>
 
   <section id="windje" class="verhaal">
     <h2>💨 Het Windje</h2>
-    <p>
+    <img class="story-img" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6a5b7b2f9a4c8f1b2d3e4f5a6b7c8d9e" alt="Training" onclick="toggleVerhaal('windje-full')" />
+    <p class="teaser">
       Tijdens de training op de budo school laat Jurgen een klein, maar dodelijk
-      windje. Niemand zegt iets. Toch schuift iedereen langzaam een meter op.
-      Jurgen doet alsof hij van niets weet.
+      windje. De stilte erna is een verhaal op zich.
     </p>
+    <div id="windje-full" class="full">
+      <p>
+        Iedereen vroeg zich af of ze het gehoord hadden of dat het alleen
+        in hun verbeelding gebeurde. De sensei bleef kalm en keek slechts één
+        keer rond. Toen iemand een stomme grap probeerde te maken, barstte de
+        karavaan van kleine, ingehouden lachjes los. Jurgen roodde en deed
+        alsof hij hard met de technieken bezig was — maar hij voelde het
+        effect van een klein wapen dat grotere schade aanrichtte: ongemak.
+      </p>
+      <p>
+        Later, bij de thee, was het onderwerp populairer dan de laatste
+        trainingsvorm. Verhalen werden groter, details werden uitvergroot,
+        en iedereen droeg bij aan het anekdotische archief van de dojo.
+      </p>
+      <span class="lees-knop" onclick="toggleVerhaal('windje-full')">Lees minder</span>
+    </div>
   </section>
 
   <section id="min-aura" class="verhaal">
     <h2>🌀 Min Aura – Een Dag uit het Leven</h2>
-    <p>
-      Dit is een dag waarop alles misgaat. Jurgen struikelt bij binnenkomst,
-      buigt verkeerd voor de sensei en vergeet zijn band. Elk moment pakt hij
-      opnieuw min aura. Toch staat hij er. Elke dag weer.
+    <img class="story-img" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd1234ef567890abcdef1234567890" alt="Min Aura" onclick="toggleVerhaal('min-aura-full')" />
+    <p class="teaser">
+      Een dag waarop alles misgaat — van struikelen tot vergeten spullen.
+      Min-aura volgt Jurgen als een onzichtbare schaduw.
     </p>
+    <div id="min-aura-full" class="full">
+      <p>
+        De dag begon met het verkeerde been, en het tempo werd alleen maar
+        langzamer. Kleine foutjes stapelden zich op en maakten ruimte voor
+        een groter verhaal: hoe iemand omgaat met kleine tegenslagen. In de
+        loop van de dag vond Jurgen momenten van onverwachte vriendelijkheid
+        en zichzelf terug in de kleinste glimlachen van zijn vrienden.
+      </p>
+      <p>
+        Uiteindelijk leerde hij dat sommige dagen vragen om zachtheid — van
+        anderen en van jezelf. Dat begrip maakte de min-aura iets minder
+        intimiderend en veel meer menselijk.
+      </p>
+      <span class="lees-knop" onclick="toggleVerhaal('min-aura-full')">Lees minder</span>
+    </div>
+  </section>
+  <section id="spel" class="verhaal">
+    <h2>🎮 Speel Jurgie Burgie</h2>
+    <p class="teaser">
+      Speel het spel waarin Jurgen naar de tandarts moet — klik op de speler
+      hieronder of open het spel in een nieuwe tab als de site het iframe
+      niet toestaat.
+    </p>
+    <div class="game-container">
+      <iframe class="game-iframe" src="https://www.spelletjes.nl/spel/prinsessen-tandarts" title="Jurgie Burgie spel" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+      <div>
+        <a class="game-link" href="https://www.spelletjes.nl/spel/prinsessen-tandarts" target="_blank" rel="noopener noreferrer">Open spel in nieuw tabblad</a>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -145,6 +273,14 @@
       const tekst = verhalen[i].innerText.toLowerCase();
       verhalen[i].style.display = tekst.includes(zoek) ? 'block' : 'none';
     }
+  }
+
+  function toggleVerhaal(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const showing = el.style.display === 'block';
+    el.style.display = showing ? 'none' : 'block';
+    if (!showing) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 </script>
 
