@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jurgen Smurfen | Officiële Avonturen</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: #020617;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    nav {
+      background: #020617;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+    }
+    nav a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #020617;
+      border-radius: 1.5rem;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    h2 {
+      color: #22c55e;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 0.75rem;
+      border: none;
+      margin-bottom: 2rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Jurgen Smurfen</h1>
+  <p>Ook bekend als Jurgie Burgie — Min Aura Legende</p>
+</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#bek-open">Bek Open</a>
+  <a href="#beugel">Beugel</a>
+  <a href="#windje">Het Windje</a>
+  <a href="#min-aura">Min Aura</a>
+</nav>
+
+<main>
+  <section id="home">
+    <h2>Welkom</h2>
+    <p>
+      Welkom op de officiële (en totaal serieuze) website van Jurgen Smurfen.
+      Hier worden alle verhalen, momenten en min-aura gebeurtenissen
+      vastgelegd voor de geschiedenis. Gebruik het menu om door de avonturen
+      te navigeren.
+    </p>
+
+    <input type="text" placeholder="Zoek in alle verhalen..." onkeyup="zoekVerhalen(this.value)" />
+  </section>
+
+  <section id="bek-open" class="verhaal">
+    <h2>😮 Bek Open – De Tandarts</h2>
+    <p>
+      Jurgen zit bij de tandarts met zijn bek zo ver open dat het lijkt alsof
+      hij een wereldrecord probeert te breken. Hij speelt alsof hij nergens
+      bang voor is, maar zijn ogen verraden alles. De tandarts vraagt of hij
+      even kan sluiten. Dat lukt niet.
+    </p>
+  </section>
+
+  <section id="beugel" class="verhaal">
+    <h2>😁 Beugel Permanent</h2>
+    <p>
+      De beugel van Jurgen zit zo vast dat mensen denken dat hij ermee geboren is.
+      Zijn tandjes doen pijn en zijn vrienden maken grapjes. Zelfs in Westenvoort
+      weet iedereen ervan. Thuis zegt moeder Coranne dat het wel goedkomt.
+      Jurgen gelooft haar half.
+    </p>
+  </section>
+
+  <section id="windje" class="verhaal">
+    <h2>💨 Het Windje</h2>
+    <p>
+      Tijdens de training op de budo school laat Jurgen een klein, maar dodelijk
+      windje. Niemand zegt iets. Toch schuift iedereen langzaam een meter op.
+      Jurgen doet alsof hij van niets weet.
+    </p>
+  </section>
+
+  <section id="min-aura" class="verhaal">
+    <h2>🌀 Min Aura – Een Dag uit het Leven</h2>
+    <p>
+      Dit is een dag waarop alles misgaat. Jurgen struikelt bij binnenkomst,
+      buigt verkeerd voor de sensei en vergeet zijn band. Elk moment pakt hij
+      opnieuw min aura. Toch staat hij er. Elke dag weer.
+    </p>
+  </section>
+</main>
+
+<footer>
+  © 2026 — Jurgen Smurfen Archief
+</footer>
+
+<script>
+  function zoekVerhalen(waarde) {
+    const verhalen = document.getElementsByClassName('verhaal');
+    const zoek = waarde.toLowerCase();
+
+    for (let i = 0; i < verhalen.length; i++) {
+      const tekst = verhalen[i].innerText.toLowerCase();
+      verhalen[i].style.display = tekst.includes(zoek) ? 'block' : 'none';
+    }
+  }
+</script>
+
+</body>
+</html>
