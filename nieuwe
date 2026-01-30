@@ -1,0 +1,723 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# create_site.sh
+# Maakt de sitebestanden aan, checkt/maakt jurgen branch en pusht naar origin/jurgen.
+# Run in de root van je lokale repository.
+
+# Safety: require clean working tree
+if [ -n "$(git status --porcelain)" ]; then
+  echo "Er zijn onopgeslagen wijzigingen. Commit of stash ze eerst."
+  git status --porcelain
+  exit 1
+fi
+
+BRANCH="jurgen"
+REMOTE="origin"
+
+# Checkout or create branch
+if git rev-parse --verify "$BRANCH" >/dev/null 2>&1; then
+  git checkout "$BRANCH"
+else
+  git checkout -b "$BRANCH"
+fi
+
+echo "Schrijf sitebestanden..."
+
+cat > index.html <<'HTML'
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jurgen Smurfen — Officiële Avonturen</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Officiële archief van Jurgen Smurfen — verhalen, anekdotes en het spel." />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jurgen Smurfen</a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">
+        <span class="hamburger"></span>
+        <span class="sr-only">Menu openen</span>
+      </button>
+
+      <nav id="mainNav" class="main-nav" aria-label="Hoofdmenu">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="bek-open.html">Bek Open</a></li>
+          <li><a href="beugel.html">Beugel</a></li>
+          <li><a href="windje.html">Het Windje</a></li>
+          <li><a href="min-aura.html">Min Aura</a></li>
+          <li><a href="daymar.html">Daymar</a></li>
+          <li><a href="moeder-coranne.html">Moeder Coranne</a></li>
+          <li><a href="#spel" id="spelLink">Speel</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>De officiële avonturen van Jurgen Smurfen</h1>
+      <p class="lead">Gelaagde anekdotes, karaktervolle scènes en momenten die blijven hangen. Kies een hoofdstuk en duik erin.</p>
+
+      <div class="search-row">
+        <label for="siteSearch" class="sr-only">Zoek verhalen</label>
+        <input id="siteSearch" type="search" placeholder="Zoek in verhalen, bijv. 'tandarts' of 'beugel'">
+      </div>
+    </section>
+
+    <section class="cards" id="cards">
+      <article class="card" data-keywords="tandarts bek open angst humor ontsnappen">
+        <img src="https://images.unsplash.com/photo-1588774069154-9a4b9c14d3cf?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=3c3f6f8f4d3c0b8a2f9b4a5c5a1b2c3d" alt="Tandartsstoel en instrumenten" loading="lazy">
+        <div class="card-body">
+          <h3><a href="bek-open.html">Bek Open — De Tandarts</a></h3>
+          <p class="muted">Een intieme scène over angst, kleine overwinningen en de verhalen die we thuis maken van eenvoudige dingen.</p>
+          <a class="btn" href="bek-open.html">Lees verhaal</a>
+        </div>
+      </article>
+
+      <article class="card" data-keywords="beugel overbeet metaalmond tanden kampvuur groei">
+        <img src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=2e9b2ad3a5d4c6f5a7b8c9d0e1f2a3b4" alt="Glimlach met beugel" loading="lazy">
+        <div class="card-body">
+          <h3><a href="beugel.html">Beugel & Overbeet</a></h3>
+          <p class="muted">Dieper in de ervaring van een beugel: fysieke effecten, emotie en sociale verhalen.</p>
+          <a class="btn" href="beugel.html">Lees verhaal</a>
+        </div>
+      </article>
+
+      <article class="card" data-keywords="windje dojo training gezelschap schaamte humor anekdote">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=6a5b7b2f9a4c8f1b2d3e4f5a6b7c8d9e" alt="Dojo training" loading="lazy">
+        <div class="card-body">
+          <h3><a href="windje.html">Het Windje</a></h3>
+          <p class="muted">Een korte gebeurtenis, een lange herinnering — hoe kleine momenten de sfeer van een groep bepalen.</p>
+          <a class="btn" href="windje.html">Lees verhaal</a>
+        </div>
+      </article>
+
+      <article class="card" data-keywords="min-aura pech dag fouten vriendelijkheid reflectie groei">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd1234ef567890abcdef1234567890" alt="Mistige ochtend, bedachtzaamheid" loading="lazy">
+        <div class="card-body">
+          <h3><a href="min-aura.html">Min Aura</a></h3>
+          <p class="muted">Een dag vol kleine tegenslagen die uiteindelijk ruimte biedt voor mededogen — een persoonlijke reflectie.</p>
+          <a class="btn" href="min-aura.html">Lees verhaal</a>
+        </div>
+      </article>
+
+      <article class="card" data-keywords="daymar vriendin liefde steun karakter">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a2f7c3d4e5b6a7c8d9e0f1a2b3c4d5e" alt="Stel houdt elkaars hand vast" loading="lazy">
+        <div class="card-body">
+          <h3><a href="daymar.html">Daymar — vriendin van Jurgen</a></h3>
+          <p class="muted">Een blik op Daymar: haar achtergrond, haar invloed op Jurgen en hun gedeelde momenten.</p>
+          <a class="btn" href="daymar.html">Lees profiel</a>
+        </div>
+      </article>
+
+      <article class="card" data-keywords="moeder coranne familie complexiteit relaties vergeving">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=4c3d2b1a0f9e8d7c6b5a4e3f2a1b0c9d" alt="Moeder en kind silhouet" loading="lazy">
+        <div class="card-body">
+          <h3><a href="moeder-coranne.html">Moeder Coranne — Familie en Invloed</a></h3>
+          <p class="muted">Een complex portret: haar rol in Jurgen's leven, keuzes en hoe ze het gezin vormde.</p>
+          <a class="btn" href="moeder-coranne.html">Lees profiel</a>
+        </div>
+      </article>
+    </section>
+
+    <section id="spel" class="game">
+      <h2>Speel Jurgie Burgie</h2>
+      <div class="game-frame">
+        <iframe src="https://www.spelletjes.nl/spel/prinsessen-tandarts" title="Jurgie Burgie spel" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+      </div>
+      <p class="muted">Als het iframe geblokkeerd is, <a href="https://www.spelletjes.nl/spel/prinsessen-tandarts" target="_blank" rel="noopener">open het spel in een nieuw tabblad</a>.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 — Jurgen Smurfen Archief</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
+HTML
+
+cat > styles.css <<'CSS'
+:root{
+  --bg:#0f172a;
+  --card:#071033;
+  --accent:#22c55e;
+  --muted:#94a3b8;
+  --glass: rgba(255,255,255,0.03);
+  --radius:12px;
+  --container:1100px;
+  --accent-2:#60a5fa;
+  --text:#e6eef8;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background: linear-gradient(180deg, #071129 0%, var(--bg) 60%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+.container{
+  max-width:var(--container);
+  margin:0 auto;
+  padding:1.25rem;
+}
+
+/* Header */
+.site-header{
+  background:linear-gradient(90deg,#030616 0%, rgba(2,6,23,0.7) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  justify-content:space-between;
+  padding:0.75rem 0;
+}
+.brand{
+  color:var(--text);
+  font-weight:700;
+  text-decoration:none;
+  font-size:1.125rem;
+  letter-spacing:0.2px;
+}
+.main-nav ul{
+  display:flex;
+  gap:0.75rem;
+  list-style:none;
+  margin:0;
+  padding:0;
+  align-items:center;
+}
+.main-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  padding:0.5rem 0.6rem;
+  border-radius:8px;
+  font-weight:600;
+  transition:all .15s ease;
+}
+.main-nav a:hover{ color:var(--accent-2); transform:translateY(-1px); }
+.main-nav a.active{ color:var(--text); background:var(--glass); }
+
+/* Mobile nav toggle */
+.nav-toggle{
+  background:none;
+  border:0;
+  display:none;
+  padding:0.25rem;
+  cursor:pointer;
+  color:var(--text);
+}
+.hamburger{
+  display:block;
+  width:22px;
+  height:2px;
+  background:var(--text);
+  position:relative;
+}
+.hamburger::before, .hamburger::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:22px;
+  height:2px;
+  background:var(--text);
+}
+.hamburger::before{ top:-6px }
+.hamburger::after{ top:6px }
+
+/* Hero */
+.hero{ padding:2rem 0 1rem 0; text-align:center }
+.hero h1{ margin:0; font-size:2rem; color:var(--text) }
+.lead{ color:var(--muted); margin-top:0.5rem }
+
+/* Search */
+.search-row{ margin-top:1rem; display:flex; justify-content:center }
+.search-row input{
+  width:100%;
+  max-width:720px;
+  padding:0.85rem 1rem;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.04);
+  background:rgba(255,255,255,0.02);
+  color:var(--text);
+  outline:none;
+}
+
+/* Cards */
+.cards{
+  margin:1.5rem 0 2rem 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1rem;
+}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 8px 30px rgba(2,6,23,0.6);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.card img{ width:100%; height:160px; object-fit:cover; display:block }
+.card-body{ padding:1rem }
+.card h3{ margin:0 0 0.5rem 0; font-size:1.05rem }
+.muted{ color:var(--muted); margin:0 0 0.75rem 0 }
+.btn{
+  display:inline-block;
+  padding:0.5rem 0.9rem;
+  background:linear-gradient(90deg,var(--accent-2),var(--accent));
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:600;
+  box-shadow:0 6px 18px rgba(34,197,94,0.08);
+}
+.card:hover{ transform:translateY(-6px); box-shadow:0 12px 40px rgba(2,6,23,0.7) }
+
+/* Game */
+.game-frame iframe{ width:100%; height:520px; border-radius:10px; border:0; }
+
+/* Footer */
+.site-footer{ padding:2rem 0; text-align:center; color:var(--muted); border-top:1px solid rgba(255,255,255,0.02) }
+
+/* Accessibility */
+.sr-only{ position:absolute!important; height:1px; width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap }
+
+/* Responsive */
+@media (max-width:900px){
+  .main-nav{ display:none }
+  .nav-toggle{ display:block }
+  .main-nav.open{ display:block; position:absolute; right:1rem; top:64px; background:var(--card); padding:0.75rem; border-radius:10px; box-shadow:0 8px 24px rgba(2,6,23,0.6) }
+  .main-nav ul{ flex-direction:column; gap:0.25rem }
+  .hero h1{ font-size:1.5rem }
+}
+CSS
+
+cat > script.js <<'JS'
+// script.js — lichte UI helpers (menu toggle, zoekfilter, active links)
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.getElementById('navToggle');
+  const mainNav = document.getElementById('mainNav');
+
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', () => {
+      const open = mainNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  // Zoekfunctionaliteit op index: filter kaarten op data-keywords en tekst
+  const search = document.getElementById('siteSearch');
+  const cards = document.querySelectorAll('#cards .card');
+
+  if (search) {
+    search.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      cards.forEach(card => {
+        const text = (card.innerText + ' ' + (card.dataset.keywords || '')).toLowerCase();
+        card.style.display = q === '' || text.includes(q) ? '' : 'none';
+      });
+    });
+  }
+
+  // Active link highlight: markeer huidige pagina in nav
+  const links = document.querySelectorAll('.main-nav a');
+  const current = location.pathname.split('/').pop() || 'index.html';
+  links.forEach(a => {
+    const href = a.getAttribute('href');
+    if (href === current || (href === 'index.html' && current === '')) {
+      a.classList.add('active');
+    }
+  });
+});
+JS
+
+cat > bek-open.html <<'HTML'
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bek Open — Jurgen Smurfen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Bek Open — een verhaal over Jurgen bij de tandarts, angst en thuiskomst.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jurgen Smurfen</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav"><span class="hamburger"></span></button>
+      <nav id="mainNav" class="main-nav" aria-label="Hoofdmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bek-open.html" class="active">Bek Open</a></li>
+          <li><a href="beugel.html">Beugel</a></li>
+          <li><a href="windje.html">Het Windje</a></li>
+          <li><a href="min-aura.html">Min Aura</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="story">
+      <h1>😮 Bek Open — De Tandarts</h1>
+      <p class="muted">Een alledaagse gebeurtenis die tegelijkertijd klein en enorm kan voelen.</p>
+
+      <img src="https://images.unsplash.com/photo-1588774069154-9a4b9c14d3cf?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=3c3f6f8f4d3c0b8a2f9b4a5c5a1b2c3d" alt="Tandartsstoel en instrumenten" style="width:100%;border-radius:10px;margin:1rem 0" loading="lazy">
+
+      <h2>De afspraak</h2>
+      <p>De lucht in de tandartspraktijk ruikt naar een mengsel van mint en ontsmettingsmiddel — vertrouwd en tegelijk onheilspellend. Jurgen wacht, bladzijde na bladzijde van een oud tijdschrift doorbladerend zonder echt iets te lezen. Zijn handen voelen lichtelijk zweterig; het idee van iemand die werkt in de kleine ruimte achter zijn mond geeft hem een vreemd soort kwetsbaarheid.</p>
+
+      <h2>In de stoel</h2>
+      <p>Wanneer hij eindelijk in de stoel gaat liggen, voelt de wereld boven hem heel anders — helder en onnatuurlijk verlicht. De assistent is rustig, bijna mechanisch, en telt zachtjes om een ritme te brengen. Jurgen probeert te lachen, een schokkerige poging om het ongemak te verdoven met humor, maar zijn mond blijft open als een klein universum waarin hij geen controle heeft.</p>
+
+      <h2>Gedachten en ontsnappingsfantasieën</h2>
+      <p>Terwijl het instrumentarium klingelt, zwellen Jurgen's gedachten aan in absurde richtingen: hij bedenkt ontsnappingsscenario's die variëren van een dramatische sprong met een parachute tot een listige ruilhandel met een altijd-te-laatkomer. Die fantasiën zijn niet echt ernstig — ze zijn de geest die in paniek zoekt naar grip — en ze maken de situatie draaglijker omdat ze het moment relativeren.</p>
+
+      <h2>Thuiskomst en navertellen</h2>
+      <p>Thuis verandert het verhaal. Jurgen vertelt het duizendmaal, en elke versie verschuift subtiel: meer drama, minder kliniek, meer heldendom en minder angst. Zijn moeder luistert, rolt met haar ogen, maar lacht ook. Dat hervertellen is niet alleen zelftherapeutisch; het is een manier om terug te pakken wat even buiten zijn handen lag.</p>
+
+      <p><a class="btn" href="index.html">Terug naar overzicht</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container">© 2026 — Jurgen Smurfen Archief</div></footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
+HTML
+
+cat > beugel.html <<'HTML'
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Beugel & Overbeet — Jurgen Smurfen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Beugel & overbeet — fysieke en emotionele kant van Jurgen's ervaring.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jurgen Smurfen</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav"><span class="hamburger"></span></button>
+      <nav id="mainNav" class="main-nav" aria-label="Hoofdmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bek-open.html">Bek Open</a></li>
+          <li><a href="beugel.html" class="active">Beugel & Overbeet</a></li>
+          <li><a href="windje.html">Het Windje</a></li>
+          <li><a href="min-aura.html">Min Aura</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="story">
+      <h1>😁 Beugel & Overbeet</h1>
+      <p class="muted">De beugel verandert meer dan tanden — hij beïnvloedt gewoontes, zelfbeeld en relaties.</p>
+
+      <img src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=2e9b2ad3a5d4c6f5a7b8c9d0e1f2a3b4" alt="Glimlach met beugel" style="width:100%;border-radius:10px;margin:1rem 0" loading="lazy">
+
+      <h2>Wat is een overbeet?</h2>
+      <p>Een overbeet is een tandheelkundige term voor wanneer de bovenste tanden aanzienlijk over de onderste tanden uitsteken. Het kan invloed hebben op kauwen, spraak en het risico op slijtage van tanden. Orthodontische behandeling, zoals beugels of in sommige gevallen chirurgische correctie, helpt om de beet te verbeteren en toekomstige problemen te voorkomen.</p>
+
+      <h2>Dagelijkse impact</h2>
+      <p>Voor Jurgen betekende de beugel vooral routine-veranderingen: extra tijd met poetsen, speciale tandenragers, en soms voedsel dat hij even moest vermijden. Naast het fysieke ongemak waren er sociale effecten — een wisselwerking tussen hoe hij zichzelf zag en hoe anderen reageerden.</p>
+
+      <h2>Emotionele kanten</h2>
+      <p>De beugel voelt in het begin als een vreemd buitenstaander op zijn gezicht. Maar met tijd en kleine overwinningen (bijvoorbeeld wanneer een klasgenoot opmerkt dat hij minder scheef lacht) verandert de emotie naar trots en geduld. Een overbeet behandelen is vaak een traject: niet alleen voor het gebit, maar voor iemands geduld en zelfbeeld.</p>
+
+      <h2>Praktische tips</h2>
+      <ul>
+        <li>Volg strikt de instructies van de orthodontist — dit versnelt behandeling en voorkomt complicaties.</li>
+        <li>Gebruik wax om scherpe randjes te verzachten en pijn te verminderen.</li>
+        <li>Vermijd kleverige en harde voedingsmiddelen die brackets kunnen losmaken.</li>
+        <li>Stel kleine doelen en vier tussentijdse overwinningen (bijv. een dag zonder pijn of een compliment van een vriend).</li>
+      </ul>
+
+      <h2>Verhalende reflectie</h2>
+      <p>Jaren later zal Jurgen terugkijken op die periode als iets dat hem opwond maar ook gevormd heeft. De beugel werd een overgangsobject — ongemakkelijk maar met een duidelijk doel. Het verhaal van de beugel is daarom niet alleen tandheelkundig; het is een verhaal over volwassen worden, over geduld en over de kleine bevestigingen die bij elk proces horen.</p>
+
+      <p><a class="btn" href="index.html">Terug naar overzicht</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container">© 2026 — Jurgen Smurfen Archief</div></footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
+HTML
+
+cat > windje.html <<'HTML'
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Het Windje — Jurgen Smurfen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Het Windje — een korte anekdote over schaamte, groepsdynamiek en humor.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jurgen Smurfen</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav"><span class="hamburger"></span></button>
+      <nav id="mainNav" class="main-nav" aria-label="Hoofdmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bek-open.html">Bek Open</a></li>
+          <li><a href="beugel.html">Beugel</a></li>
+          <li><a href="windje.html" class="active">Het Windje</a></li>
+          <li><a href="min-aura.html">Min Aura</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="story">
+      <h1>💨 Het Windje</h1>
+      <p class="muted">Een kleine gebeurtenis met een grote echo — over vergissingen, stilte en de lach die volgt.</p>
+
+      <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=6a5b7b2f9a4c8f1b2d3e4f5a6b7c8d9e" alt="Dojo training" style="width:100%;border-radius:10px;margin:1rem 0" loading="lazy">
+
+      <h2>Het moment</h2>
+      <p>Tijdens de training, net na een serie kata's, gaat er iets mis: een klein geluid dat in de stilte uitvergroot lijkt te worden. Voor Jurgen voelt het alsof de vloer onder hem wegvalt. De sensei kijkt op, de kamer houdt haar adem in — maar dan breekt iets: niet een ruzie, maar een golf van onderdrukte grinnik.</p>
+
+      <h2>Groepsdynamiek en schaamte</h2>
+      <p>In zulke momenten wordt groepsdynamiek zichtbaar. Er is een stille afspraak: niet doen alsof je iets merkt, maar ook niet harder lachen dan nodig. Dat evenwicht veroorzaakt de meeste van de onvergetelijke anekdotes — mensen zoeken een manier om het ongemak te verzachten zonder iemand compleet te vernederen. Jurgen voelt zich rood, maar ook verbonden: het incident is nu iets dat iedereen samen deelt.</p>
+
+      <h2>De nazit</h2>
+      <p>Later, tijdens de thee, wordt het verhaal rijker aan details die misschien niet echt zijn gebeurd. Verhalen groeien omdat mensen willen bijdragen, en omdat het samen delen van iets kleins vaak juist de band versterkt. Jurgen lacht nu makkelijker — niet omdat hij het grappig vond toen het gebeurde, maar omdat het hem liet merken dat hij deel uitmaakt van een groep die hem accepteert, schaamte en al.</p>
+
+      <p><a class="btn" href="index.html">Terug naar overzicht</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container">© 2026 — Jurgen Smurfen Archief</div></footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
+HTML
+
+cat > min-aura.html <<'HTML'
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Min Aura — Jurgen Smurfen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Min Aura — een reflectie op een dag vol kleine tegenslagen en onverwachte vriendelijkheid.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jurgen Smurfen</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav"><span class="hamburger"></span></button>
+      <nav id="mainNav" class="main-nav" aria-label="Hoofdmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bek-open.html">Bek Open</a></li>
+          <li><a href="beugel.html">Beugel</a></li>
+          <li><a href="windje.html">Het Windje</a></li>
+          <li><a href="min-aura.html" class="active">Min Aura</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="story">
+      <h1>🌀 Min Aura — Een Dag uit het Leven</h1>
+      <p class="muted">Over kleine fouten, onverwachte vriendelijkheid en de zachte kunst van jezelf vergiffenis geven.</p>
+
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd1234ef567890abcdef1234567890" alt="Mistige ochtend, bedachtzaamheid" style="width:100%;border-radius:10px;margin:1rem 0" loading="lazy">
+
+      <h2>De opeenstapeling</h2>
+      <p>Het begint met kleine dingen: de bus die te vroeg komt, de boterham die valt met de jam naar beneden, een vergeten afspraak. Elk incident op zich is niet noemenswaardig; samen vormen ze een keten die de toon van de dag zet. Voor Jurgen voelt het alsof de wereld net iets zwaarder weegt — en dat is genoeg om de energie uit zijn dag te zuigen.</p>
+
+      <h2>Kleine momenten van menselijkheid</h2>
+      <p>Toch zijn er, tussen de ergernissen door, ook momenten van onverwachte vriendelijkheid. Een klasgenoot die zijn pen uitleent, een onbekende die even de deur openhoudt; dat soort kleine gebaren werkt als tegenwicht. Jurgen merkt hoe die kleine heldendaden van anderen de min-aura minder intimiderend maken.</p>
+
+      <h2>Reflectie en zachtheid</h2>
+      <p>Op de avond van die dag kijkt Jurgen terug en probeert hij het verhaal minder hard te vertellen. In plaats van het te dramatiseren, leert hij mezelf toe te staan fouten te maken. Die zachtheid — naar zichzelf en anderen — wordt de belangrijkste uitkomst van een schijnbaar slechte dag.</p>
+
+      <h2>Een beter einde</h2>
+      <p>Uiteindelijk is min-aura geen permanente staat; het is een voorbijgaande tinting van ervaring. Jurgen leert dat sommige dagen vragen om pauzes, ademhaling, en kleine stappen. Dat begrip verandert de manier waarop hij volgende dagen benadert: met iets meer geduld en iets meer ruimte voor fouten.</p>
+
+      <p><a class="btn" href="index.html">Terug naar overzicht</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container">© 2026 — Jurgen Smurfen Archief</div></footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
+HTML
+
+cat > daymar.html <<'HTML'
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daymar — vriendin van Jurgen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Daymar — profiel van Jurgen's vriendin: persoonlijkheid, geschiedenis en haar invloed.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jurgen Smurfen</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav"><span class="hamburger"></span></button>
+      <nav id="mainNav" class="main-nav" aria-label="Hoofdmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bek-open.html">Bek Open</a></li>
+          <li><a href="beugel.html">Beugel</a></li>
+          <li><a href="windje.html">Het Windje</a></li>
+          <li><a href="min-aura.html">Min Aura</a></li>
+          <li><a href="daymar.html" class="active">Daymar</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="story">
+      <h1>Daymar — vriendin van Jurgen</h1>
+      <p class="muted">Een portret van Daymar: haar karakter, haar relatie met Jurgen en waarom ze belangrijk is voor de verhalen.</p>
+
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a2f7c3d4e5b6a7c8d9e0f1a2b3c4d5e" alt="Stel houdt elkaars hand vast" style="width:100%;border-radius:10px;margin:1rem 0" loading="lazy">
+
+      <h2>Achtergrond</h2>
+      <p>Daymar is nieuwsgierig en nuchter tegelijk. Ze heeft een rustig vermogen om naar mensen te luisteren, en dat is vaak precies wat Jurgen nodig heeft wanneer hij verstrikt raakt in zijn eigen paniek of overdrijving. Ze werkt met mensen (of studeert iets waar ze met anderen samenwerkt) en haalt energie uit kleine rituelen — koffie op zaterdagochtend, lange wandelingen, en gesprekken die niet persé een slot nodig hebben.</p>
+
+      <h2>Haar rol in Jurgen's leven</h2>
+      <p>Als vriendin biedt ze zowel stabiliteit als relativering. Waar Jurgen dramatiseren kan, brengt Daymar perspectief. Haar aanwezigheid heeft gevolgen voor verhalen: sommige anekdotes worden korter als ze erbij is, andere krijgen juist meer nuance omdat zij een detail toevoegt dat het verhaal vriendelijker maakt.</p>
+
+      <h2>Memorabele momenten</h2>
+      <p>Een van de favoriete scènes is wanneer Daymar Jurgen helpt zijn tandenborstel-ritueel te accepteren — niet als een groot moment, maar als een aaneenschakeling van kleine handelingen: plakkertjes op de spiegel, een liedje op de radio tijdens het poetsen, en een overwinning vieren met een glimlach. Die kleine, stille momenten vormen hun band.</p>
+
+      <h2>Toekomst en groei</h2>
+      <p>Daymar staat voor groei, niet alleen voor Jurgen maar ook voor zichzelf. Ze is niet perfect; ze maakt fouten. Maar die fouten en de manier waarop ze ze samen oplossen, laten zien dat relaties geen eindbestemming zijn, maar een doorlopend proces van wederzijds begrip en geduld.</p>
+
+      <p><a class="btn" href="index.html">Terug naar overzicht</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container">© 2026 — Jurgen Smurfen Archief</div></footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
+HTML
+
+cat > moeder-coranne.html <<'HTML'
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Moeder Coranne — Familie en Invloed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Moeder Coranne — een eerlijk en complex portret van haar rol in Jurgen's leven.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Jurgen Smurfen</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav"><span class="hamburger"></span></button>
+      <nav id="mainNav" class="main-nav" aria-label="Hoofdmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bek-open.html">Bek Open</a></li>
+          <li><a href="beugel.html">Beugel</a></li>
+          <li><a href="windje.html">Het Windje</a></li>
+          <li><a href="min-aura.html">Min Aura</a></li>
+          <li><a href="moeder-coranne.html" class="active">Moeder Coranne</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="story">
+      <h1>Moeder Coranne — Familie en Invloed</h1>
+      <p class="muted">Een genuanceerd portret over een moeder die aanwezig was in Jurgen's leven — haar keuzes, hun relatie en de sporen die ze naliet.</p>
+
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=4c3d2b1a0f9e8d7c6b5a4e3f2a1b0c9d" alt="Moeder en kind silhouet" style="width:100%;border-radius:10px;margin:1rem 0" loading="lazy">
+
+      <h2>Haar aanwezigheid</h2>
+      <p>Coranne is een figuur die zowel troost als conflicten bracht. Ze had haar eigen geschiedenis en maakte keuzes die het gezin vormden. Voor Jurgen waren die keuzes soms moeilijk te begrijpen, maar ze zijn onderdeel van wie hij geworden is.</p>
+
+      <h2>Een complexe relatie</h2>
+      <p>De relatie tussen Coranne en Jurgen is niet eenduidig. Er zijn herinneringen aan zorg en warmte, maar ook aan momenten van afstand of teleurstelling. Die complexiteit is wat het verhaal menselijk maakt: mensen zijn zelden alleen goed of slecht in iemands leven.</p>
+
+      <h2>Invloed op verhalen</h2>
+      <p>Coranne verschijnt vaak in Jurgen's verhalen als een katalysator — een reden voor sommige van zijn angsten, maar ook een bron van genegenheid. In de anekdotes functioneert ze als spiegel: haar reacties prikkelen Jurgen en geven ruimte aan groei en reflectie.</p>
+
+      <h2>Respectvolle representatie</h2>
+      <p>Ik gebruik geen kwetsende taal of ongecontroleerde beweringen over echte mensen. Als jij wilt dat Coranne in de fictieve verhaallijn een bepaald verleden of beroep heeft, geef dat dan duidelijk aan en bevestig dat het fictie is — dan pas ik de tekst aan met neutrale, niet-stigmatiserende termen en context.</p>
+
+      <p><a class="btn" href="index.html">Terug naar overzicht</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container">© 2026 — Jurgen Smurfen Archief</div></footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
+HTML
+
+echo "Bestanden geschreven. Stage en commit..."
+
+git add index.html styles.css script.js bek-open.html beugel.html windje.html min-aura.html daymar.html moeder-coranne.html
+
+# If no changes to commit, skip
+if git diff --cached --quiet; then
+  echo "Geen veranderingen om te committen."
+else
+  git commit -m "Website: professional layout, story pages, Daymar & Coranne content"
+fi
+
+echo "Push naar ${REMOTE}/${BRANCH}..."
+git push --set-upstream ${REMOTE} ${BRANCH}
+
+echo "Klaar. De jurgen-branch is bijgewerkt en gepushed naar ${REMOTE}."
+echo "Volgende stappen:"
+echo "- (optioneel) Maak een pull request: gh pr create --fill"
+echo "- Publiceer via Settings → Pages of zet gh-pages branch als publicatiebron"
